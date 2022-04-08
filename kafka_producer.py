@@ -14,13 +14,13 @@ spark.conf.set('spark.sql.shuffle.partitions', '100')
 
 df = spark\
     .read\
-    .parquet('./rawdata/Nov_split/0.parquet')
+    .parquet('./rawdata/Nov_split/1.parquet')
 
 # df.show(10)
 # df.columns
 # df.dtypes
 
-bootstrap_servers = ["localhost:9092"]
+bootstrap_servers = ["localhost:9093"]
 
 # 카프카 공급자 생성
 producer = KafkaProducer( acks=0,

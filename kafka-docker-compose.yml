@@ -1,14 +1,56 @@
-version: '2'
+version: "3.8"
+
+networks:
+  kafka-net:
+    driver: bridge
+
 services:
-  kafka:
-    image: wurstmeister/kafka
+  zookeeper:
+    container_name: my-zookeeper
+    image: bitnami/zookeeper:3.7
+    networks:
+      - kafka-net
     ports:
-      - "9092:9092"
+      - "2181:2181"
     environment:
-      KAFKA_ADVERTISED_HOST_NAME: host.docker.internal
-      # Topic 1 will have 1 partition and 1 replicas
-      # 여러 Topic을 생성하고자 할 때는 쉼표로 구분하여 입력합니다. ex. "Topic1:1:1,Topic2:1:1"
-      KAFKA_CREATE_TOPICS: "Topic1:1:1"
-      KAFKA_ZOOKEEPER_CONNECT: host.docker.internal:2181
-    volumes:
-      - C:\Users\fora2\OneDrive\Project\eCommerce_behavior_data_pipline:/var/run/docker.sock
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    
+  kafka:
+    container_name: my-kafka
+    image: bitnami/kafka:3
+    networks:
+      - kafka-net
+    ports:
+      - "9093:9093"
+    environment:
+      - KAFKA_CFG_BROKER_ID=1
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_CFG_LISTENERS=CLIENT://:9092,EXTERNAL://:9093
+      - KAFKA_CFG_LISTENER_SECURITY_PROTOCOL_MAP=CLIENT:PLAINTEXT,EXTERNAL:PLAINTEXT
+      - KAFKA_CFG_ADVERTISED_LISTENERS=CLIENT://kafka:9092,EXTERNAL://localhost:9093
+      - KAFKA_CFG_INTER_BROKER_LISTENER_NAME=CLIENT
+    depends_on:
+      - zookeeper
+
+  # my-cassandra:
+  #   image: cassandra:latest
+  #   restart: always    
+  #   ports:
+  #     - 7000:7000
+  #     - 9042:9042
+  #   volumes:
+  #     - /home/cassandra-node-0/commitlog:/var/lib/cassandra/commitlog
+  #     - /home/cassandra-node-0/hints:/var/lib/cassandra/hints
+  #     - /home/cassandra-node-0/data:/var/lib/cassandra/data
+  #     - /home/cassandra-node-0/saved_caches:/var/lib/cassandra/saved_caches
+  #     - /home/cassandra-node-0/logs:/var/log/cassandra
+  #   environment:
+  #     - CASSANDRA_SEEDS=cassandra-0
+  #     - CASSANDRA_CLUSTER_NAME=cluster
+  #     - CASSANDRA_NUM_TOKENS=8
+  #     - CASSANDRA_DC=dc1
+  #     - CASSANDRA_RACK=rack0
+  #     - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+  #     - MAX_HEAP_SIZE=8G
+  #     - HEAP_NEWSIZE=200M
