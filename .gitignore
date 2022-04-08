@@ -2,6 +2,7 @@
 keypair/
 rawdata/
 Study/data/
+superset/
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,spark,apachehadoop,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,spark,apachehadoop,python
