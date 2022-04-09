@@ -26,6 +26,7 @@ randSplitList = [1/randInt] * randInt
 temp = df.randomSplit(randSplitList, 333)
 for idx in range(len(temp)):
     # temp[idx].repartition(1).write.format("parquet").mode('overwrite').save(f"./rawdata/oct_split/{idx}.parquet")
-    temp[idx].write.format("parquet").mode('overwrite').save(f"./rawdata/oct_split/2019-Oct-{idx}.parquet")
+    # temp[idx].write.format("parquet").mode('overwrite').save(f"./rawdata/oct_split/2019-Oct-{idx}.parquet")
+    temp[idx].write.format("parquet").mode('overwrite').save(f"./rawdata/test-{idx}.parquet")
     
 print("elapsed :", time.time() - start)
