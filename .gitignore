@@ -1,6 +1,9 @@
 # Custom
 keypair/
-rawdata/
+rawdata/Nov_split
+rawdata/Oct_split
+rawdata/2019-Nov.csv
+rawdata/2019-Oct.csv
 Study/data/
 superset/
 
