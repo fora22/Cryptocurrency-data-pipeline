@@ -6,6 +6,7 @@ rawdata/2019-Nov.csv
 rawdata/2019-Oct.csv
 Study/data/
 superset/
+docker-hbase/
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,spark,apachehadoop,python
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,spark,apachehadoop,python
