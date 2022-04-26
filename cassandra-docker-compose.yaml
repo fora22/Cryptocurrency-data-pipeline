@@ -1,0 +1,25 @@
+version: "3.8"
+
+services:
+  cassandra:
+    container_name: my-cassandra
+    image: cassandra:latest
+    restart: always    
+    ports:
+      - 7000:7000
+      - 9042:9042
+    volumes:
+      - ./cassandra-node-0/commitlog:/var/lib/cassandra/commitlog
+      - ./cassandra-node-0/hints:/var/lib/cassandra/hints
+      - ./cassandra-node-0/data:/var/lib/cassandra/data
+      - ./cassandra-node-0/saved_caches:/var/lib/cassandra/saved_caches
+      - ./cassandra-node-0/logs:/var/log/cassandra
+    environment:
+      - CASSANDRA_SEEDS=cassandra-0
+      - CASSANDRA_CLUSTER_NAME=cluster
+      - CASSANDRA_NUM_TOKENS=8
+      - CASSANDRA_DC=dc1
+      - CASSANDRA_RACK=rack0
+      - CASSANDRA_ENDPOINT_SNITCH=GossipingPropertyFileSnitch
+      - MAX_HEAP_SIZE=8G
+      - HEAP_NEWSIZE=200M
